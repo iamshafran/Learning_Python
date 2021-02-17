@@ -258,5 +258,4 @@ ws["L35"] = "=SUM(L7:L34)"
 ws["M35"] = "=SUM(M7:M34)"
 ws["N35"] = "=SUM(N7:N34)"
 
-
 wb.save("/Users/iamshafran/Pay Calculations/" + payday.strftime("%B") + ".xlsx")
