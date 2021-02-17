@@ -1,7 +1,6 @@
 import os.path
 import pickle
 from datetime import datetime, time, timedelta
-
 import holidays
 from apiclient.discovery import build
 from dateutil.parser import *
