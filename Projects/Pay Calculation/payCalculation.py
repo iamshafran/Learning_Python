@@ -8,6 +8,7 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
+import pprint
 
 # get shifts form google calendar
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
@@ -66,6 +67,7 @@ weeklyHours = {"week1": 0, "week2": 0, "week3": 0, "week4": 0}
 # determine shift pattern and hours worked
 for event in events:
     # Get datetime from Google Calendar data and strip timezone info
+    # pprint.pprint(event)
     event["start"]["dateTime"] = parse(event["start"].get("dateTime")).replace(
         tzinfo=None
     )
@@ -106,18 +108,18 @@ for event in events:
 for event in events:
 
     eventDate = event["start"].get("dateTime")
-    dateDifference = (eventDate.replace(tzinfo=None) - payday).days
+    dateDifference = (payday - eventDate.replace(tzinfo=None)).days
 
-    if dateDifference >= -35 and dateDifference <= -29:
+    if dateDifference <= 35 and dateDifference >= 29:
         event["weekNumber"] = 1
 
-    elif dateDifference >= -28 and dateDifference <= -22:
+    elif dateDifference <= 28 and dateDifference >= 22:
         event["weekNumber"] = 2
 
-    elif dateDifference >= -21 and dateDifference <= -15:
+    elif dateDifference <= 21 and dateDifference >= 15:
         event["weekNumber"] = 3
 
-    elif dateDifference >= -14 and dateDifference <= -8:
+    elif dateDifference <= 14 and dateDifference >= 8:
         event["weekNumber"] = 4
 
 # calculate weekly hours worked
