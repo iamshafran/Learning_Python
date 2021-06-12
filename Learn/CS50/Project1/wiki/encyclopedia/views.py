@@ -3,7 +3,9 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django import forms
+import markdown2
 from . import util
+import random
 
 
 def index(request):
@@ -14,7 +16,9 @@ def viewEntry(request, title):
     entry = util.get_entry(title.lower())
     if entry:
         return render(
-            request, "encyclopedia/entry.html", {"entry": entry, "title": title}
+            request,
+            "encyclopedia/entry.html",
+            {"entry": markdown2.markdown(entry), "title": title},
         )
     else:
         return render(request, "encyclopedia/404.html")
@@ -84,3 +88,10 @@ def editEntry(request, title):
     else:
         form = EditForm
     return render(request, "encyclopedia/editPage.html", {"title": title, "form": form})
+
+
+def randomPage(request):
+    entry_list = util.list_entries()
+    random_entry = random.choice(entry_list)
+
+    return viewEntry(request, random_entry.lower())
