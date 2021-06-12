@@ -8,13 +8,11 @@
     <h1>{{ title }}</h1>
 
     <div>
-        
-        {% for item in entry %}
-            {{ item }}
-        {% endfor %}
-            
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Save Changes">
+        </form>
     </div>
-
-    <a href="{% url 'edit' title %}">Edit this entry</a>
 
 {% endblock %}

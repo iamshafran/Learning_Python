@@ -7,4 +7,5 @@ urlpatterns = [
     path("<str:title>", views.viewEntry, name="entry"),
     path("search/", views.searchResults, name="search"),
     path("newPage/", views.newPage, name="new"),
+    path("<str:title>/edit/", views.editEntry, name="edit"),
 ]

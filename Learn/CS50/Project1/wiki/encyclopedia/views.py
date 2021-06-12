@@ -55,12 +55,10 @@ def newPage(request):
 
     if request.method == "POST":
         form = NewPageForm(request.POST)
-
         if form.is_valid():
             title = form.cleaned_data["title"]
             content = form.cleaned_data["content"]
-
-            if util.get_entry(title) == None:
+            if util.get_entry(title):
                 return render(request, "encyclopedia/newPage.html", {"form": form})
             else:
                 util.save_entry(title, content)
@@ -69,3 +67,20 @@ def newPage(request):
         form = NewPageForm()
 
     return render(request, "encyclopedia/newPage.html", {"form": form})
+
+
+def editEntry(request, title):
+    entry = util.get_entry(title)
+
+    class EditForm(forms.Form):
+        content = forms.CharField(widget=forms.Textarea, initial=entry)
+
+    if request.method == "POST":
+        form = EditForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data["content"]
+            util.save_entry(title, content)
+            return redirect(reverse("entry", args=[title]))
+    else:
+        form = EditForm
+    return render(request, "encyclopedia/editPage.html", {"title": title, "form": form})
